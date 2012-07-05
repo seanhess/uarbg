@@ -1,0 +1,58 @@
+<html>
+<head>
+  <link rel="stylesheet" href="./game.css">
+</head>
+<body>
+  <h1>Underwater Adventure Rocket Bazooka Guys</h1>
+  <div id="board">
+    <div class="guy"></div>
+  </div>
+
+  <button id="woot">Woot</button>
+
+<div pub-key="pub-44c641e1-60e1-4887-b914-8f84adbffd4c" sub-key="sub-2685ee73-a6e1-11e1-b81a-6d2439665c25" ssl="off" origin="pubsub.pubnub.com" id="pubnub"></div>
+<script src="http://cdn.pubnub.com/pubnub-3.1.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>(function(){
+
+  var ChannelId = "game"
+
+  $("#woot").click(function() {
+    PUBNUB.publish({
+      channel: ChannelId,
+      message: {move:Math.random()}
+    })
+  })
+
+    // LISTEN FOR MESSAGES
+    PUBNUB.subscribe({
+        channel    : ChannelId,
+
+        // stay connected
+        restore    : false,
+ 
+        callback   : function(message) { // RECEIVED A MESSAGE.
+            console.log("MESSAGE", message.move)
+        },
+ 
+        disconnect : function() {        // LOST CONNECTION.
+          console.log("DISCONNECT")
+        },
+ 
+        reconnect  : function() {        // CONNECTION RESTORED.
+          console.log("RECONNECT")
+        },
+ 
+        connect    : function() {        // CONNECTION ESTABLISHED.
+
+            PUBNUB.publish({             // SEND A MESSAGE.
+                channel : ChannelId,
+                message : {data:"value"}
+            })
+        }
+    })
+})();</script>
+<script type='text/javascript' src="./game.js"></script>
+
+</body>
+</html>

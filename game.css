@@ -1,0 +1,11 @@
+#board {
+  background-color: #69C;
+  width: 600px;
+  height: 600px;
+}
+
+.guy {
+  width: 30px;
+  height: 30px;
+  background-color: #000;
+}
